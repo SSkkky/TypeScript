@@ -1,7 +1,9 @@
 import React from 'react';
 
 type dataType = {
-    [a: string]: string | number | undefined
+    id: number;
+    name: string;
+    date: string;
 }
 
 export default dataType;

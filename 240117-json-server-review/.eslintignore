@@ -1,0 +1,8 @@
+node_modules/
+types/
+dist/
+
+*.js
+*.jsx
+*.umd.js
+*.min.js
