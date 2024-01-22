@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Item from './Item';
 
 function App() {
+
+  const init = [
+    { id: 0, name: '홍길동', date: '2024-01-22' },
+    { id: 1, name: '홍길순', date: '2024-01-22' }
+  ]
+
+  const [data, setData] = useState(init);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        data.map(obj => (
+          <Item key={obj.id} obj={obj} />
+        ))
+      }
     </div>
   );
 }
