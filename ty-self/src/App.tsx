@@ -1,15 +1,12 @@
 // 데이터 생성 - 출력(컴포넌트 활용) - 글쓰기
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import dataType from './modal/dataType';
 import './App.css';
 import Item from './Item';
-import { ScriptTarget } from 'typescript';
 
 function App() {
-  const elInput = useRef<HTMLInputElement>(null);
-
   const [data, setData] = useState<dataType[]>([]);
-  const [alter, setAlter] = useState('');
+  const [alter, setAlter] = useState<dataType[]>([]);
   const [txt, setTxt] = useState<string>('');
 
   const change = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,39 +17,38 @@ function App() {
     e.preventDefault();
     let d = null;
 
-    if (alter.length === 0) {
+    if (alter.length < 1) {
       d = { id: new Date().getTime(), name: txt, date: '2024-01-22' }
       setData([...data, d])
     } else {
-      console.log(alter, 'alter')
-      // d = { id: alter[0].id, name: txt, date: '2024-01-22' }
-      setAlter('');
-      // setData([d])
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.id === alter[0].id ? { ...item, name: txt, date: '2024-01-22' } : item
+        )
+      );
+      setAlter([]);
     }
+    setTxt('');
   }
 
   const put = (item: dataType) => {
-    // console.log(item)
-    if (elInput.current) {
-      elInput.current.value = item.name;
-      setAlter(item)
-      console.log(alter, 'alter-put')
-      // console.log(alter, 'alter')
-      // console.log(alter[0], 'alter id')
-    }
+    setTxt(item.name);
+    setAlter([item])
+    console.log(alter, 'alter-put')
   }
 
   const del = (id: number) => {
     const d = data.filter((data) => { return data.id !== id })
-    setData(d)
+    setData(d);
+    setAlter([]);
   }
 
   return (
     <div className="App">
       <div>
         <form onSubmit={submit}>
-          <input type="text" name="name" onChange={change} defaultValue={txt} ref={elInput} />
-          <input type="submit" value="출력" />
+        <input type="text" name="name" onChange={change} value={txt}/>
+          <input type="submit" value={alter.length < 1 ? '출력' : '수정'} />
         </form>
       </div>
       <div>
